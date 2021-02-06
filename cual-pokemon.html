@@ -1,36 +1,105 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Prueba Pokemón</title>
-    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-  </head>
-  <body>
-    <script>
-      $(document).ready(function () {
-        $.get(
-          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/"num".png",
-          function (pokemon) {
-            for (var i = 0; i < pokemon.length; i++) {
 
-            }
-
-         var html_str = "";
-         html_str += "<h4>Types</h4>";
-        html_str += "<ul>";
-        for (var i = 0; i < res.types.length; i++) {
-        html_str += "<li>" + res.types[i].type.name + "</li>";
-         }
-         html_str += "</ul>";
-        $("#bulbasaur").html(html_str);
+<head>
+  <meta charset="utf-8" />
+  <title>Prueba Pokemones</title>
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+  <!-- AXIOS es una librería que nos permite poner "Pausas" (Promesas) en nuestro código -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="estilos.css">
 
 
-          },
-          "json"
-        );
+</head>
 
+<body>
+
+  <div class="container">
+    <div class="container">
+      <div class="row">
+        <div class="col-8">
+          <div class="row" id="pokemones">
+          </div>
+        </div>
+        <div id="info" class="col-4">
+
+          <h3> Nombre: <span id="nombre"></span></h3>
+          <h3> Peso: <span id="peso"></span></h3>
+          <h3> Altura: <span id="altura"></span></h3>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+
+    $(document).ready(function () {
+      //colocar imágenes de pokemones
+
+      for (var i = 1; i < 151; i++) {
+
+        $('#pokemones').append(`  
+          <div class="col-3">
+            <img data-id="${i}" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${i}.png">
+          </div>        
+        `)
+
+      }
+
+      $("#info").hide();
+
+      $("img").on("click", function () {
+
+        const idPokemon = $(this).attr('data-id');
+        getPokemon(idPokemon);
+        $("#info").show();
 
       });
-    </script>
-  </body>
+
+
+
+
+      async function getPokemon(idPokemon) {
+
+        const datosPokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}/`);
+        console.log(datosPokemon);
+
+        $('#nombre').html(datosPokemon.data.name);
+        $('#peso').html(datosPokemon.data.weight);
+        $('#altura').html(datosPokemon.data.height);
+
+
+
+
+      }
+
+
+      // data viene del Json revisado en la consola.
+      // name, weigth, heigth tiene datos directos que se usan y vienen del JSON del navegador.
+      // datosPokemon guarda el JSON 
+
+
+
+
+    },
+      "json"
+    );
+
+
+
+
+
+
+
+
+  </script>
+</body>
+
 </html>
