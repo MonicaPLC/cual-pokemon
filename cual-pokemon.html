@@ -14,29 +14,24 @@
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="css/estilos.css">
 
 
 </head>
 
 <body>
 
+  <img id="pk" src="img/pokemon.jpg" alt="">
+
   <div class="container">
-    <div class="container">
-      <div class="row">
-        <div class="col-8">
-          <div class="row" id="pokemones">
-          </div>
-        </div>
-        <div id="info" class="col-4">
-
-          <h3> Nombre: <span id="nombre"></span></h3>
-          <h3> Peso: <span id="peso"></span></h3>
-          <h3> Altura: <span id="altura"></span></h3>
-
-        </div>
-      </div>
+    <div id="info">
+      <h5> Nombre: <span id="nombre"></span></h5>
+      <h5> Peso: <span id="peso"></span></h5>
+      <h5> Altura: <span id="altura"></span></h5>
     </div>
+    <div class="row" id="pokemones">
+    </div>
+
   </div>
   <script>
 
@@ -46,7 +41,7 @@
       for (var i = 1; i < 151; i++) {
 
         $('#pokemones').append(`  
-          <div class="col-3">
+          <div id="borde"class="col-3">
             <img data-id="${i}" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${i}.png">
           </div>        
         `)
@@ -65,7 +60,7 @@
 
 
 
-
+      //es una función para que salga el recuadro con la info de cada pokemon.
       async function getPokemon(idPokemon) {
 
         const datosPokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}/`);
@@ -74,9 +69,6 @@
         $('#nombre').html(datosPokemon.data.name);
         $('#peso').html(datosPokemon.data.weight);
         $('#altura').html(datosPokemon.data.height);
-
-
-
 
       }
 
